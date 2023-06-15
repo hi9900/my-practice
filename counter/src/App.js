@@ -22,6 +22,25 @@ const ButtonWrapper = styled.div`
 class App extends Component {
   state = { number: 0 }
 
+  constructor(props) {
+    super(props)
+    console.log("constructor 호출")
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount 호출")
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate 호출")
+    if (nextState.number % 3 === 0) return false
+    return true
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate 호출")
+  }
+
   // state를 Update
   countUp = () => {
     this.setState(
@@ -40,6 +59,8 @@ class App extends Component {
     // Destructuring Assignment 문법을 사용한 방식
     const { number } = this.state
     const { countUp, countDown } = this
+
+    console.log("render 호출")
 
     return (
       <Wrapper>
