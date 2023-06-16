@@ -1,8 +1,10 @@
-// import React, { Component } from "react"
-import React, { useState, useEffect } from "react"
+import React from "react"
 import CountButton from "./components/CountButton"
 import Number from "./components/Number"
 import styled from "styled-components"
+import { connect } from "react-redux"
+import { decrease, increase } from "./store/reducer"
+
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -77,34 +79,57 @@ const ButtonWrapper = styled.div`
 // }
 
 // useState, useEffect
-const App = () => {
-  const [number, setNumber] = useState(0)
+// const App = () => {
+//   const [number, setNumber] = useState(0)
 
-  useEffect(() => {
-    console.log("useEffect -> componentDidMount")
+//   useEffect(() => {
+//     console.log("useEffect -> componentDidMount")
 
-    return () => {
-      console.log("useEffect -> componentWillUnmount")
-    }
-  }, [])
+//     return () => {
+//       console.log("useEffect -> componentWillUnmount")
+//     }
+//   }, [])
 
-  useEffect(() => {
-    console.log(`componentDidUpdate (number) -> ${number}`)
-  }, [number])
+//   useEffect(() => {
+//     console.log(`componentDidUpdate (number) -> ${number}`)
+//   }, [number])
 
-  useEffect(() => {
-    console.log("useEffect -> componentDidUpdate")
-  })
+//   useEffect(() => {
+//     console.log("useEffect -> componentDidUpdate")
+//   })
 
+//   return (
+//     <Wrapper>
+//       <ButtonWrapper>
+//         <CountButton onClick={() => setNumber(number + 1)} text="+" />
+//         <CountButton onClick={() => setNumber(number - 1)} text="-" />
+//       </ButtonWrapper>
+//       <Number number={number} />
+//     </Wrapper>
+//   )
+// }
+
+// Redux
+const App = ({ number, increase, decrease }) => {
   return (
     <Wrapper>
       <ButtonWrapper>
-        <CountButton onClick={() => setNumber(number + 1)} text="+" />
-        <CountButton onClick={() => setNumber(number - 1)} text="-" />
+        <CountButton onClick={() => increase(number + 1)} text="+" />
+        <CountButton onClick={() => decrease(number - 1)} text="-" />
       </ButtonWrapper>
       <Number number={number} />
     </Wrapper>
   )
 }
 
-export default App;
+const mapStateToProps = state => ({
+  number: state.number
+})
+
+const mapDispatchToProps = dispatch => ({
+  increase: number => dispatch(increase(number)),
+  decrease: number => dispatch(decrease(number))
+})
+
+// export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App)
