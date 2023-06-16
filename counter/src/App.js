@@ -3,8 +3,8 @@ import CountButton from "./components/CountButton"
 import Number from "./components/Number"
 import styled from "styled-components"
 import { connect } from "react-redux"
-import { decrease, increase } from "./store/reducer"
-
+import * as counter from './store/reducer'
+import { bindActionCreators } from 'redux'
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -110,12 +110,12 @@ const ButtonWrapper = styled.div`
 // }
 
 // Redux
-const App = ({ number, increase, decrease }) => {
+const App = ({ number, counter }) => {
   return (
     <Wrapper>
       <ButtonWrapper>
-        <CountButton onClick={() => increase(number + 1)} text="+" />
-        <CountButton onClick={() => decrease(number - 1)} text="-" />
+        <CountButton onClick={() => counter.increase(number + 1)} text="+" />
+        <CountButton onClick={() => counter.decrease(number - 1)} text="-" />
       </ButtonWrapper>
       <Number number={number} />
     </Wrapper>
@@ -126,9 +126,12 @@ const mapStateToProps = state => ({
   number: state.number
 })
 
+// const mapDispatchToProps = dispatch => ({
+//   increase: number => dispatch(increase(number)),
+//   decrease: number => dispatch(decrease(number))
+// })
 const mapDispatchToProps = dispatch => ({
-  increase: number => dispatch(increase(number)),
-  decrease: number => dispatch(decrease(number))
+  counter: bindActionCreators(counter, dispatch)
 })
 
 // export default App;
